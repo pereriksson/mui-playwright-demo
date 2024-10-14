@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import Select, {SelectChangeEvent} from '@mui/material/Select';
 import {useState} from "react";
 
 export default function Home() {
@@ -23,7 +23,7 @@ export default function Home() {
 function BasicSelect() {
   const [age, setAge] = useState('');
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value);
   };
 
@@ -57,7 +57,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-function createData(name, calories, fat, carbs, protein) {
+function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
   return { name, calories, fat, carbs, protein };
 }
 
