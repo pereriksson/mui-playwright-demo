@@ -23,7 +23,7 @@ export default function Home() {
 function BasicSelect() {
   const [age, setAge] = useState('');
 
-  const handleChange = (event: React.SyntheticEvent) => {
+  const handleChange = (event: any) => {
     setAge(event.target.value);
   };
 
