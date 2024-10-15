@@ -5,7 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
-import {MouseEventHandler, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -24,7 +24,7 @@ import {Dessert} from "@/app/types";
 export default function Home() {
   const [desserts, setDesserts] = useState<Dessert[]>([])
   const [dessertId, setDessertId] = useState<number|null>(null)
-  const [loading, setLoading] = useState<Boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     setDesserts(initialDesserts)
@@ -100,7 +100,7 @@ function MyDrawer(props: MyDrawerProps) {
       setProtein(dessert.protein.toString())
       setPriority(dessert.priority)
     }
-  }, [dessertId]);
+  }, [dessertId, desserts]);
 
   return (
     <Drawer open={!!dessertId} onClose={()=>setDessertId(null)} role="dialog">
