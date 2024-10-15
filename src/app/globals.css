@@ -17,3 +17,7 @@ body {
 .MuiDrawer-paper {
   padding: 1rem;
 }
+
+.MuiInputBase-root {
+  width: 100%;
+}

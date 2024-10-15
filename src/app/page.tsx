@@ -89,23 +89,29 @@ function MyDrawer(props: MyDrawerProps) {
   return (
     <Drawer open={!!dessertId} onClose={()=>setDessertId(null)} role="dialog">
       <form onSubmit={updateDessert}>
-        <Box>
-          <TextField name="name" label="Name" variant="standard" onChange={(e) => setName(e.target.value)} value={name}/>
-        </Box>
-        <Box>
-          <TextField name="calories" label="Calories" variant="standard" onChange={(e) => setCalories(e.target.value)} value={calories}/>
-        </Box>
-        <Box>
-          <TextField name="fat" label="Fat" variant="standard" onChange={(e) => setFat(e.target.value)} value={fat}/>
-        </Box>
-        <Box>
-          <TextField name="carbs" label="Carbs" variant="standard" onChange={(e) => setCarbs(e.target.value)} value={carbs}/>
-        </Box>
-        <Box>
-          <TextField name="protein" label="Protein" variant="standard" onChange={(e) => setProtein(e.target.value)} value={protein}/>
-        </Box>
-        <Box>
-          <TextField name="protein" label="Priority" variant="standard" onChange={(e) => setPriority(e.target.value)} value={priority}/>
+          <Box sx={{marginBottom: '2rem'}}>
+          <Box>
+            <TextField name="name" label="Name" variant="standard" onChange={(e) => setName(e.target.value)} value={name}/>
+          </Box>
+          <Box>
+            <TextField name="calories" label="Calories" variant="standard" onChange={(e) => setCalories(e.target.value)} value={calories}/>
+          </Box>
+          <Box>
+            <TextField name="fat" label="Fat" variant="standard" onChange={(e) => setFat(e.target.value)} value={fat}/>
+          </Box>
+          <Box>
+            <TextField name="carbs" label="Carbs" variant="standard" onChange={(e) => setCarbs(e.target.value)} value={carbs}/>
+          </Box>
+          <Box>
+            <TextField name="protein" label="Protein" variant="standard" onChange={(e) => setProtein(e.target.value)} value={protein}/>
+          </Box>
+          <Box>
+            <Select variant="standard" value={priority} onChange={(e: SelectChangeEvent) => setPriority(e.target.value)}>
+              <MenuItem value="high">High</MenuItem>
+              <MenuItem value="medium">Medium</MenuItem>
+              <MenuItem value="low">Low</MenuItem>
+            </Select>
+          </Box>
         </Box>
         <Button variant="contained" type="submit">Save</Button>
       </form>
