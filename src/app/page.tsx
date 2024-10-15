@@ -14,6 +14,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Button, Drawer, TextField} from "@mui/material";
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpwardOutlined';
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import MenuOutlined from "@mui/icons-material/MenuOutlined";
 
 export default function Home() {
   const [dessertId, setDessertId] = useState<number|null>(null)
@@ -43,6 +46,7 @@ type Dessert = {
   fat: number
   carbs: number
   protein: number
+  priority: string
 }
 
 function MyDrawer(props: MyDrawerProps) {
@@ -52,16 +56,18 @@ function MyDrawer(props: MyDrawerProps) {
   const [fat, setFat] = useState<string>("")
   const [carbs, setCarbs] = useState<string>("")
   const [protein, setProtein] = useState<string>("")
+  const [priority, setPriority] = useState<string>("")
 
   function updateDessert() {
     const index = desserts.findIndex(d => d.id === dessertId)
     desserts[index] = {
       id: dessertId,
-      name: name.toString(),
+      name,
       calories: parseInt(calories),
       fat: parseInt(fat),
       carbs: parseInt(carbs),
-      protein: parseInt(protein)
+      protein: parseInt(protein),
+      priority
     }
 
     setDessertId(null)
@@ -76,6 +82,7 @@ function MyDrawer(props: MyDrawerProps) {
       setFat(dessert.fat.toString())
       setCarbs(dessert.carbs.toString())
       setProtein(dessert.protein.toString())
+      setPriority(dessert.priority)
     }
   }, [dessertId]);
 
@@ -97,22 +104,25 @@ function MyDrawer(props: MyDrawerProps) {
         <Box>
           <TextField name="protein" label="Protein" variant="standard" onChange={(e) => setProtein(e.target.value)} value={protein}/>
         </Box>
+        <Box>
+          <TextField name="protein" label="Priority" variant="standard" onChange={(e) => setPriority(e.target.value)} value={priority}/>
+        </Box>
         <Button variant="contained" type="submit">Save</Button>
       </form>
     </Drawer>
   )
 }
 
-function createDessert(id: number, name: string, calories: number, fat: number, carbs: number, protein: number) {
-  return { id, name, calories, fat, carbs, protein };
+function createDessert(id: number, name: string, calories: number, fat: number, carbs: number, protein: number, priority: string) {
+  return { id, name, calories, fat, carbs, protein, priority };
 }
 
 const desserts: Dessert[] = [
-  createDessert(1, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createDessert(2, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createDessert(3, 'Eclair', 262, 16.0, 24, 6.0),
-  createDessert(4, 'Cupcake', 305, 3.7, 67, 4.3),
-  createDessert(5, 'Gingerbread', 356, 16.0, 49, 3.9),
+  createDessert(1, 'Frozen yoghurt', 159, 6.0, 24, 4.0, "high"),
+  createDessert(2, 'Ice cream sandwich', 237, 9.0, 37, 4.3, "medium"),
+  createDessert(3, 'Eclair', 262, 16.0, 24, 6.0, "medium"),
+  createDessert(4, 'Cupcake', 305, 3.7, 67, 4.3, "medium"),
+  createDessert(5, 'Gingerbread', 356, 16.0, 49, 3.9, "low")
 ];
 
 function BasicSelect() {
@@ -155,9 +165,10 @@ function BasicTable(props: BasicTableProps) {
           <TableRow>
             <TableCell>Dessert (100g serving)</TableCell>
             <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell align="right">Fat (g)</TableCell>
+            <TableCell align="right">Carbs (g)</TableCell>
+            <TableCell align="right">Protein (g)</TableCell>
+            <TableCell align="center">Priority</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -172,6 +183,17 @@ function BasicTable(props: BasicTableProps) {
               <TableCell align="right">{row.fat}</TableCell>
               <TableCell align="right">{row.carbs}</TableCell>
               <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="center" data-value={row.priority}>
+                {row.priority === "high" && (
+                  <ArrowUpwardIcon sx={{color: "red"}}/>
+                )}
+                {row.priority === "medium" && (
+                  <MenuOutlined sx={{color: "#FDAC00"}}/>
+                )}
+                {row.priority === "low" && (
+                  <ArrowDownwardIcon sx={{color: "green"}}/>
+                )}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
