@@ -1,4 +1,17 @@
 .layout {
-  width: 30rem;
+  width: 45rem;
   margin: 0 auto;
+}
+
+form input,
+form label {
+  display: block;
+}
+
+.MuiDrawer-paper {
+  padding: 1rem;
+}
+
+.MuiDrawer-paper input {
+  margin-bottom: 1rem;
 }

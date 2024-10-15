@@ -5,20 +5,117 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import {Drawer} from "@mui/material";
 
 export default function Home() {
+  const [dessertId, setDessertId] = useState<number|null>(null)
+
   return (
     <div className="layout">
       <h2>Table</h2>
-      <BasicTable/>
+      <BasicTable setDessert={setDessertId}/>
       <h2>Select</h2>
       <BasicSelect/>
-
+      {dessertId && (
+        <MyDrawer dessertId={dessertId} setDessertId={setDessertId}/>
+      )}
     </div>
   );
 }
 
+type MyDrawerProps = {
+  dessertId: number
+  setDessertId: (id: number | null) => void
+}
+
+type Dessert = {
+  id: number
+  name: string
+  calories: number
+  fat: number
+  carbs: number
+  protein: number
+}
+
+function MyDrawer(props: MyDrawerProps) {
+  const {dessertId, setDessertId} = props
+  const [dessert, setDessert] = useState<Dessert|null>(null)
+  const [name, setName] = useState<string>("")
+  const [calories, setCalories] = useState<string>("")
+  const [fat, setFat] = useState<string>("")
+  const [carbs, setCarbs] = useState<string>("")
+  const [protein, setProtein] = useState<string>("")
+
+  function updateDessert() {
+    const index = desserts.findIndex(d => d.id === dessertId)
+    desserts[index] = {
+      id: dessertId,
+      name: name.toString(),
+      calories: parseInt(calories),
+      fat: parseInt(fat),
+      carbs: parseInt(carbs),
+      protein: parseInt(protein)
+    }
+
+    setDessertId(null)
+  }
+
+  useEffect(() => {
+    const dessert = desserts.find(d => d.id === dessertId)
+
+    if (dessert) {
+      setName(dessert.name)
+      setCalories(dessert.calories.toString())
+      setFat(dessert.fat.toString())
+      setCarbs(dessert.carbs.toString())
+      setProtein(dessert.protein.toString())
+    }
+  }, [dessert]);
+
+  return (
+    <Drawer open={!!dessertId} onClose={()=>setDessertId(null)} role="dialog">
+      <form onSubmit={updateDessert}>
+        {/*<input type="hidden" name="id" value={dessert?.id} onChange={(e) => }/>*/}
+        <label>Name:</label>
+        <input type="text" name="name" onChange={(e) => setName(e.target.value)} value={name}/>
+        <label>Calories:</label>
+        <input type="text" name="calories" onChange={(e) => setCalories(e.target.value)} value={calories}/>
+        <label>Fat:</label>
+        <input type="text" name="fat" onChange={(e) => setFat(e.target.value)} value={fat}/>
+        <label>Carbs:</label>
+        <input type="text" name="carbs" onChange={(e) => setCarbs(e.target.value)} value={carbs}/>
+        <label>Protein:</label>
+        <input type="text" name="protein" onChange={(e) => setProtein(e.target.value)} value={protein}/>
+        <button type="submit">Save</button>
+      </form>
+    </Drawer>
+  )
+}
+
+function useDessert(id: number|null) {
+  if (!id) return null
+  return desserts.find(dessert => dessert.id === id)
+}
+
+function createDessert(id: number, name: string, calories: number, fat: number, carbs: number, protein: number) {
+  return { id, name, calories, fat, carbs, protein };
+}
+
+const desserts: Dessert[] = [
+  createDessert(1, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
+  createDessert(2, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
+  createDessert(3, 'Eclair', 262, 16.0, 24, 6.0),
+  createDessert(4, 'Cupcake', 305, 3.7, 67, 4.3),
+  createDessert(5, 'Gingerbread', 356, 16.0, 49, 3.9),
+];
 
 function BasicSelect() {
   const [age, setAge] = useState('');
@@ -38,38 +135,21 @@ function BasicSelect() {
           label="Name"
           onChange={handleChange}
         >
-          <MenuItem value={10}>Frozen yoghurt</MenuItem>
-          <MenuItem value={20}>Ice cream sandwich</MenuItem>
-          <MenuItem value={30}>Eclair</MenuItem>
-          <MenuItem value={30}>Cupcake</MenuItem>
-          <MenuItem value={30}>Gingerbread</MenuItem>
+          {desserts.map(dessert => (
+            <MenuItem key={dessert.id} value={dessert.id}>{dessert.name}</MenuItem>
+          ))}
         </Select>
       </FormControl>
     </Box>
   );
 }
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-
-function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-  return { name, calories, fat, carbs, protein };
+type BasicTableProps = {
+  setDessert: (open: number | null) => void
 }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
-function BasicTable() {
+function BasicTable(props: BasicTableProps) {
+  const {setDessert} = props
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -83,14 +163,13 @@ function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {desserts.map((row) => (
             <TableRow
               key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 }, cursor: 'pointer' }}
+              onClick={() => setDessert(row.id)}
             >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
+              <TableCell component="th" scope="row">{row.name}</TableCell>
               <TableCell align="right">{row.calories}</TableCell>
               <TableCell align="right">{row.fat}</TableCell>
               <TableCell align="right">{row.carbs}</TableCell>
