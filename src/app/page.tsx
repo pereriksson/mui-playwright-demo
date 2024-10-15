@@ -82,11 +82,21 @@ function MyDrawer(props: MyDrawerProps) {
   return (
     <Drawer open={!!dessertId} onClose={()=>setDessertId(null)} role="dialog">
       <form onSubmit={updateDessert}>
-        <TextField name="name" label="Name" variant="standard" onChange={(e) => setName(e.target.value)} value={name}/>
-        <TextField name="calories" label="Calories" variant="standard" onChange={(e) => setCalories(e.target.value)} value={calories}/>
-        <TextField name="fat" label="Fat" variant="standard" onChange={(e) => setFat(e.target.value)} value={fat}/>
-        <TextField name="carbs" label="Carbs" variant="standard" onChange={(e) => setCarbs(e.target.value)} value={carbs}/>
-        <TextField name="protein" label="Protein" variant="standard" onChange={(e) => setProtein(e.target.value)} value={protein}/>
+        <Box>
+          <TextField name="name" label="Name" variant="standard" onChange={(e) => setName(e.target.value)} value={name}/>
+        </Box>
+        <Box>
+          <TextField name="calories" label="Calories" variant="standard" onChange={(e) => setCalories(e.target.value)} value={calories}/>
+        </Box>
+        <Box>
+          <TextField name="fat" label="Fat" variant="standard" onChange={(e) => setFat(e.target.value)} value={fat}/>
+        </Box>
+        <Box>
+          <TextField name="carbs" label="Carbs" variant="standard" onChange={(e) => setCarbs(e.target.value)} value={carbs}/>
+        </Box>
+        <Box>
+          <TextField name="protein" label="Protein" variant="standard" onChange={(e) => setProtein(e.target.value)} value={protein}/>
+        </Box>
         <Button variant="contained" type="submit">Save</Button>
       </form>
     </Drawer>
