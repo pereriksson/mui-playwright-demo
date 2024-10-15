@@ -13,7 +13,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {Drawer} from "@mui/material";
+import {Button, Drawer, TextField} from "@mui/material";
 
 export default function Home() {
   const [dessertId, setDessertId] = useState<number|null>(null)
@@ -82,18 +82,12 @@ function MyDrawer(props: MyDrawerProps) {
   return (
     <Drawer open={!!dessertId} onClose={()=>setDessertId(null)} role="dialog">
       <form onSubmit={updateDessert}>
-        {/*<input type="hidden" name="id" value={dessert?.id} onChange={(e) => }/>*/}
-        <label>Name:</label>
-        <input type="text" name="name" onChange={(e) => setName(e.target.value)} value={name}/>
-        <label>Calories:</label>
-        <input type="text" name="calories" onChange={(e) => setCalories(e.target.value)} value={calories}/>
-        <label>Fat:</label>
-        <input type="text" name="fat" onChange={(e) => setFat(e.target.value)} value={fat}/>
-        <label>Carbs:</label>
-        <input type="text" name="carbs" onChange={(e) => setCarbs(e.target.value)} value={carbs}/>
-        <label>Protein:</label>
-        <input type="text" name="protein" onChange={(e) => setProtein(e.target.value)} value={protein}/>
-        <button type="submit">Save</button>
+        <TextField name="name" label="Name" variant="standard" onChange={(e) => setName(e.target.value)} value={name}/>
+        <TextField name="calories" label="Calories" variant="standard" onChange={(e) => setCalories(e.target.value)} value={calories}/>
+        <TextField name="fat" label="Fat" variant="standard" onChange={(e) => setFat(e.target.value)} value={fat}/>
+        <TextField name="carbs" label="Carbs" variant="standard" onChange={(e) => setCarbs(e.target.value)} value={carbs}/>
+        <TextField name="protein" label="Protein" variant="standard" onChange={(e) => setProtein(e.target.value)} value={protein}/>
+        <Button variant="contained" type="submit">Save</Button>
       </form>
     </Drawer>
   )
