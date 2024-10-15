@@ -47,7 +47,6 @@ type Dessert = {
 
 function MyDrawer(props: MyDrawerProps) {
   const {dessertId, setDessertId} = props
-  const [dessert, setDessert] = useState<Dessert|null>(null)
   const [name, setName] = useState<string>("")
   const [calories, setCalories] = useState<string>("")
   const [fat, setFat] = useState<string>("")
@@ -78,7 +77,7 @@ function MyDrawer(props: MyDrawerProps) {
       setCarbs(dessert.carbs.toString())
       setProtein(dessert.protein.toString())
     }
-  }, [dessert]);
+  }, [dessertId]);
 
   return (
     <Drawer open={!!dessertId} onClose={()=>setDessertId(null)} role="dialog">
@@ -98,11 +97,6 @@ function MyDrawer(props: MyDrawerProps) {
       </form>
     </Drawer>
   )
-}
-
-function useDessert(id: number|null) {
-  if (!id) return null
-  return desserts.find(dessert => dessert.id === id)
 }
 
 function createDessert(id: number, name: string, calories: number, fat: number, carbs: number, protein: number) {
